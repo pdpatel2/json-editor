@@ -4,68 +4,90 @@
     <title>JSON Editor</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
-
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="js/index.js"></script>
-
   </head>
 
   <body ng-app="app" ng-controller="angular">
     <div class="container">
       <h1 class="center page-header animate">Update JSON Form</h1>
-<!--       <form name="UpdateJsonForm" novalidate ng-submit="fieldsToEdit([[original, update, field, id],[original2, update2, field2, id2],[original3, update3, field3, id3]])"> -->
+      <div class="directions">
+        <h3>Directions:</h3>
+        <p>1)  Updating JSON Key<br>-Select the Key button<br>-Include the name of the original key in the original input box<br>-Include the name of the new key in the update input box<br><br>2)  Updating JSON Value<br>-Select the Value button<br>-Include the name of the original value in the original input box<br>-Include the name of the new value in the update input box<br>-Include the name of the key associated with the value<br><br>3)  Adding to JSON<br>-Include both the key and value to be added to the JSON<br><br>4)  Deleting from JSON<br>-If all instances of the key are to be deleted, only input the key name<br>-If the key is duplicated in JSON, and a specific key needs to be deleted, specify the value associated with the key to be deleted<br>-If the value associated with the key is an array, and a specific index in the array is to be deleted, specify the index (starting with 0) to be deleted
+        </p>
+      </div>
 
-      <form name="UpdateJsonForm" novalidate ng-submit="fieldsToEdit([update1, update2, update3])">
-
+      <form name="UpdateForm" novalidate ng-submit="fieldsToEdit([update1, update2, update3])">
         <div row>
           <div class="col-md-4">
             <h3 class="center">Update 1</h3>
-            <div class="form-group center">
+            <div class="form-group">
               <label class="radio-inline"><input type="radio" ng-model="update1.field" value="key">Key</label>
               <label class="radio-inline"><input type="radio" ng-model="update1.field" value="value">Value</label><br>
 
+              <div class="alert alert-danger" ng-if="(update1.original && !update1.field)">Select key or value button before submitting</div>
+
               <label for="original">Original:</label>
-              <input type="text" class="form-control" placeholder="input original key/value" ng-model="update1.original">
+              <input type="text" class="form-control" ng-model="update1.original">
 
               <label for="update">Update:</label>
-              <input type="text" class="form-control" placeholder="input new key/value" ng-model="update1.new">
+              <input type="text" class="form-control" ng-model="update1.new">
+
+              <div class="alert alert-danger" ng-if="(update1.original && !update1.new)">Enter new value before submitting</div>
 
               <label for="key">Key Associated With Value:</label>
               <input type="text" class="form-control" placeholder="only if value being updated" ng-model="update1.id">
+
+              <div class="alert alert-danger" ng-if="(update1.field == 'value' && !update1.id)">Enter key assosicated with value before submitting</div>
+
             </div>
           </div>
 
           <div class="col-md-4">
             <h3 class="center">Update 2</h3>
-            <div class="form-group center">
+            <div class="form-group">
               <label class="radio-inline"><input type="radio" ng-model="update2.field" value="key">Key</label>
               <label class="radio-inline"><input type="radio" ng-model="update2.field" value="value">Value</label><br>
 
+              <div class="alert alert-danger" ng-if="(update2.original && !update2.field)">Select key or value button before submitting</div>
+
               <label for="original">Original:</label>
-              <input type="text" class="form-control" placeholder="input original key/value" ng-model="update2.original">
+              <input type="text" class="form-control" ng-model="update2.original">
 
               <label for="update">Update:</label>
-              <input type="text" class="form-control" placeholder="input new key/value" ng-model="update2.new">
+              <input type="text" class="form-control" ng-model="update2.new">
+
+              <div class="alert alert-danger" ng-if="(update2.original && !update2.new)">Enter new value before submitting</div>
 
               <label for="key">Key Associated With Value:</label>
               <input type="text" class="form-control" placeholder="only if value being updated" ng-model="update2.id">
+
+              <div class="alert alert-danger" ng-if="(update2.field == 'value' && !update2.id)">Enter key assosicated with value before submitting</div>
+
             </div>
           </div>
 
           <div class="col-md-4">
             <h3 class="center">Update 3</h3>
-            <div class="form-group center">
+            <div class="form-group">
               <label class="radio-inline"><input type="radio" ng-model="update3.field" value="key">Key</label>
               <label class="radio-inline"><input type="radio" ng-model="update3.field" value="value">Value</label><br>
 
+              <div class="alert alert-danger" ng-if="(update3.original && !update3.field)">Select key or value button before submitting</div>
+
               <label for="original">Original:</label>
-              <input type="text" class="form-control" placeholder="input original key/value" ng-model="update3.original">
+              <input type="text" class="form-control" ng-model="update3.original">
 
               <label for="update">Update:</label>
-              <input type="text" class="form-control" placeholder="input new key/value" ng-model="update3.new">
+              <input type="text" class="form-control" ng-model="update3.new">
+
+              <div class="alert alert-danger" ng-if="(update3.original && !update3.new)">Enter new value before submitting</div>
 
               <label for="key">Key Associated With Value:</label>
               <input type="text" class="form-control" placeholder="only if value being updated" ng-model="update3.id">
+
+              <div class="alert alert-danger" ng-if="(update3.field == 'value' && !update3.id)">Enter key assosicated with value before submitting</div>
+
             </div>
           </div>
         </div>
@@ -79,13 +101,16 @@
       <div class="row">
 
         <div class="col-md-6">
-          <form name="AddToJson" novalidate ng-submit="add(aobj)">
+          <form name="AddForm" novalidate ng-submit="add(aobj)">
             <h3 class="center">Add to JSON</h3>
-            <div class="form-group center">
+            <div class="form-group">
               <label for="akey">Key:</label>
               <input type="text" class="form-control" ng-model="aobj.key">
               <label for="avalue">Value:</label>
               <input type="text" class="form-control" ng-model="aobj.value">
+
+              <div class="alert alert-danger" ng-if="(aobj.key && !aobj.value)">Input value to be associated with key</div>
+
             </div>
             <div class="row center">
               <button type="submit" class="button btn-success"><strong>ADD TO JSON</strong></button>
@@ -94,13 +119,15 @@
         </div>
 
         <div class="col-md-6">
-          <form name="DeleteFromJson" novalidate ng-submit="delete(dobj)">
+          <form name="DeleteForm" novalidate ng-submit="delete(jsonString, dobj)">
             <h3 class="center">Delete from JSON</h3>
-            <div class="form-group center">
+            <div class="form-group">
               <label for="dkey">Key:</label>
               <input type="text" class="form-control" ng-model="dobj.key">
-              <label for="dvalue">Value:</label>
+              <label for="dvalue">Value (advanced search):</label>
               <input type="text" class="form-control" ng-model="dobj.value">
+              <label for="dvalue">Index (advanced search):</label>
+              <input type="text" class="form-control" ng-model="dobj.index">
             </div>
             <div class="row center">
               <button type="submit" class="button btn-danger"><strong>DELETE FROM JSON</strong></button>

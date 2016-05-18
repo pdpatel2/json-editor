@@ -1,3 +1,9 @@
+body {
+	background-color: #18AFEC;
+	color: #313131;
+	font-family: Georgia;
+}
+
 label {
 	padding: 5px;
 }
@@ -7,5 +13,15 @@ label {
 }
 
 button {
-	margin: 10px;
+	height:50px;
+	width:300px;
+	margin:15px;
+	font-size: 20px;
+}
+
+.directions {
+	border: 1px solid;
+	padding: 10px;
+	font-weight: bold;
+	box-shadow: 0 0 10px white;
 }

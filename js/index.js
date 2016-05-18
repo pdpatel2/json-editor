@@ -2,6 +2,7 @@ var app = angular.module("app", [])
 
 app.controller("angular", function($scope) {
 
+	//update this scope variable to test other JSON strings
 	$scope.jsonString = {
 	    "hours": 30,
 	    "priorities": [
@@ -50,67 +51,94 @@ app.controller("angular", function($scope) {
 	    ]
 	}
 
+	//arr will include 1-3 elements(keys or values) to update
 	$scope.fieldsToEdit = function(arr) {
-		console.log(arr)
+		//iterate over elements 
 		arr.forEach(function(elem) {
 			if(elem) {
+				//if element exists (form includes updates), run checkForUpdateFunction
 				checkForUpdate($scope.jsonString, elem.original, elem.new, elem.field, elem.id)
 			}
 		})
+		//clear form
+		$scope.UpdateForm.$setUntouched()
+		$scope.update1={}
+		$scope.update2={}
+		$scope.update3={}
 	}
 
+	//obj will include key and value
 	$scope.add = function(obj) {
-		console.log(obj)
 		$scope.jsonString[obj.key] = obj.value
+		//clear form
+		$scope.AddForm.$setUntouched()
+		$scope.aobj = {}
 	}
 
-	$scope.delete = function(obj) {
-		console.log(obj)
-		for (var key in $scope.jsonString) {
-			if(key === obj.key) {
-				console.log('here')
-				delete $scope.jsonString[key]
+	//obj is current JSON string and deleteObj includes key and possibly value/index
+	$scope.delete = function(obj, deleteObj) {
+		//traverse through keys
+		for (var key in obj) {
+			if(key === deleteObj.key && (!deleteObj.value) && (!deleteObj.index)) {
+				delete obj[key]
 				break;
 			}
-			// else if(Array.isArray($scope.jsonString[key])) {
-			// 	$scope.jsonString[key].forEach(function(elem) {
-			// 		console.log(elem)
-			// 		if(typeof elem === 'object') $scope.delete(elem)
-			// 	})
-			// }
-			// else if (typeof $scope.jsonString[key] === 'object') {
-			// 	$scope.delete($scope.jsonString[key])
-			// }
-			// else {
-			// 	return
-			// }
+			else if(key === deleteObj.key && deleteObj.value === obj[key].toString()) {
+				delete obj[key]
+				break;
+			}
+			else if (key === deleteObj.key && Array.isArray(obj[key]) && (deleteObj.index)) {
+				//delete element from array if index specified and value associated with key is array
+				obj[key].splice(deleteObj.index,1)
+			}
+			else if(Array.isArray(obj[key])) {
+				obj[key].forEach(function(elem) {
+					//use recursion to check key/values on nested object
+					if(typeof elem === 'object') $scope.delete(elem, deleteObj)
+				})
+			}
+			else if (typeof obj[key] === 'object') {
+				//use recursion to check key/values on nested object
+				$scope.delete(obj[key], deleteObj)
+			}
 		}
+		//clear form
+		$scope.DeleteForm.$setUntouched()
+		$scope.dobj = {}
 	}
 
+	//obj is current JSON string
 	function checkForUpdate(obj, original, update, field, id) {
 		for (var key in obj) {
 			if(field === 'key' && key === original) {
 				performKeyUpdate(obj, update, key)
+				break;
 			}
 			else if(field === 'value' && obj[key].toString() === original && key === id) {
 				performValueUpdate(obj, update, key)
+				break;
 			}
 			else if (Array.isArray(obj[key])) {
 				obj[key].forEach(function(elem) {
+					//use recursion to check key/values on nested object
 					if(typeof elem === 'object') checkForUpdate(elem, original, update, field, id)
 				})
 			}
 			else if (typeof obj[key] === 'object') {
+				//use recursion to check key/values on nested object
 				checkForUpdate(obj[key], original, update, field, id)
 			}
 		}
 	}
 
+	//helper function to update keys
 	function performKeyUpdate(obj, update, key) {
 		obj[update] = obj[key]
 		delete obj[key]
+
 	}
 
+	//helper function to update values
 	function performValueUpdate(obj, update, key) {
 		obj[key] = update
 	}
