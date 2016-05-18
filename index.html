@@ -12,47 +12,110 @@
 
   <body ng-app="app" ng-controller="angular">
     <div class="container">
+      <h1 class="center page-header animate">Update JSON Form</h1>
+<!--       <form name="UpdateJsonForm" novalidate ng-submit="fieldsToEdit([[original, update, field, id],[original2, update2, field2, id2],[original3, update3, field3, id3]])"> -->
 
-      <pre>{{jsonString | json}}</pre>
+      <form name="UpdateJsonForm" novalidate ng-submit="fieldsToEdit([update1, update2, update3])">
 
-<!--       <div ng-repeat="(key, value) in jsonString">
-      Key: {{key}}
-      Value: {{value}}
-      </div> -->
+        <div row>
+          <div class="col-md-4">
+            <h3 class="center">Update 1</h3>
+            <div class="form-group center">
+              <label class="radio-inline"><input type="radio" ng-model="update1.field" value="key">Key</label>
+              <label class="radio-inline"><input type="radio" ng-model="update1.field" value="value">Value</label><br>
 
-      <label for="field">Key</label>
-      <input type="radio" ng-model="field" value="key">
-      <label for="field">Value</label>
-      <input type="radio" ng-model="field" value="value"><br>
+              <label for="original">Original:</label>
+              <input type="text" class="form-control" placeholder="input original key/value" ng-model="update1.original">
 
-      <label for="original">Original:</label>
-      <input type="text" ng-model="original">
-      <label for="update">Update:</label>
-      <input type="text" ng-model="update"><br><br>
+              <label for="update">Update:</label>
+              <input type="text" class="form-control" placeholder="input new key/value" ng-model="update1.new">
 
-      <label for="field">Key</label>
-      <input type="radio" ng-model="field2" value="key">
-      <label for="field">Value</label>
-      <input type="radio" ng-model="field2" value="value"><br>
+              <label for="key">Key Associated With Value:</label>
+              <input type="text" class="form-control" placeholder="only if value being updated" ng-model="update1.id">
+            </div>
+          </div>
 
-      <label for="original2">Original:</label>
-      <input type="text" ng-model="original2">
-      <label for="update2">Update:</label>
-      <input type="text" ng-model="update2"><br><br>
+          <div class="col-md-4">
+            <h3 class="center">Update 2</h3>
+            <div class="form-group center">
+              <label class="radio-inline"><input type="radio" ng-model="update2.field" value="key">Key</label>
+              <label class="radio-inline"><input type="radio" ng-model="update2.field" value="value">Value</label><br>
 
-      <label for="field">Key</label>
-      <input type="radio" ng-model="field3" value="key">
-      <label for="field">Value</label>
-      <input type="radio" ng-model="field3" value="value"><br>
+              <label for="original">Original:</label>
+              <input type="text" class="form-control" placeholder="input original key/value" ng-model="update2.original">
 
-      <label for="original3">Original:</label>
-      <input type="text" ng-model="original3">
-      <label for="update3">Update:</label>
-      <input type="text" ng-model="update3"><br><br>
+              <label for="update">Update:</label>
+              <input type="text" class="form-control" placeholder="input new key/value" ng-model="update2.new">
 
-      <button ng-click="fieldsToEdit([[original, update, field],[original2, update2, field2],[original3, update3, field3]])">Update JSON String</button>
+              <label for="key">Key Associated With Value:</label>
+              <input type="text" class="form-control" placeholder="only if value being updated" ng-model="update2.id">
+            </div>
+          </div>
 
-    </div>
+          <div class="col-md-4">
+            <h3 class="center">Update 3</h3>
+            <div class="form-group center">
+              <label class="radio-inline"><input type="radio" ng-model="update3.field" value="key">Key</label>
+              <label class="radio-inline"><input type="radio" ng-model="update3.field" value="value">Value</label><br>
+
+              <label for="original">Original:</label>
+              <input type="text" class="form-control" placeholder="input original key/value" ng-model="update3.original">
+
+              <label for="update">Update:</label>
+              <input type="text" class="form-control" placeholder="input new key/value" ng-model="update3.new">
+
+              <label for="key">Key Associated With Value:</label>
+              <input type="text" class="form-control" placeholder="only if value being updated" ng-model="update3.id">
+            </div>
+          </div>
+        </div>
+
+        <div class="row center">
+          <button type="submit" class="button btn-primary"><strong>Update JSON</strong></button>
+        </div>
+
+      </form>
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <form name="AddToJson" novalidate ng-submit="add(aobj)">
+            <h3 class="center">Add to JSON</h3>
+            <div class="form-group center">
+              <label for="akey">Key:</label>
+              <input type="text" class="form-control" ng-model="aobj.key">
+              <label for="avalue">Value:</label>
+              <input type="text" class="form-control" ng-model="aobj.value">
+            </div>
+            <div class="row center">
+              <button type="submit" class="button btn-success"><strong>ADD TO JSON</strong></button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-6">
+          <form name="DeleteFromJson" novalidate ng-submit="delete(dobj)">
+            <h3 class="center">Delete from JSON</h3>
+            <div class="form-group center">
+              <label for="dkey">Key:</label>
+              <input type="text" class="form-control" ng-model="dobj.key">
+              <label for="dvalue">Value:</label>
+              <input type="text" class="form-control" ng-model="dobj.value">
+            </div>
+            <div class="row center">
+              <button type="submit" class="button btn-danger"><strong>DELETE FROM JSON</strong></button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+
+      <div class=row>
+        <div class="col-md-12">
+          <pre>{{jsonString | json}}</pre>
+        </div>
+      </div>
 
   </body>
 

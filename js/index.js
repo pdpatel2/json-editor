@@ -1,10 +1,6 @@
 var app = angular.module("app", [])
 
 app.controller("angular", function($scope) {
-	// $scope.jsonString = {
-	// 	"name": "Priti",
-	// 	"location": "NYC"
-	// }
 
 	$scope.jsonString = {
 	    "hours": 30,
@@ -54,45 +50,69 @@ app.controller("angular", function($scope) {
 	    ]
 	}
 
-	function checkForUpdate(obj, original, update) {
+	$scope.fieldsToEdit = function(arr) {
+		console.log(arr)
+		arr.forEach(function(elem) {
+			if(elem) {
+				checkForUpdate($scope.jsonString, elem.original, elem.new, elem.field, elem.id)
+			}
+		})
+	}
+
+	$scope.add = function(obj) {
+		console.log(obj)
+		$scope.jsonString[obj.key] = obj.value
+	}
+
+	$scope.delete = function(obj) {
+		console.log(obj)
+		for (var key in $scope.jsonString) {
+			if(key === obj.key) {
+				console.log('here')
+				delete $scope.jsonString[key]
+				break;
+			}
+			// else if(Array.isArray($scope.jsonString[key])) {
+			// 	$scope.jsonString[key].forEach(function(elem) {
+			// 		console.log(elem)
+			// 		if(typeof elem === 'object') $scope.delete(elem)
+			// 	})
+			// }
+			// else if (typeof $scope.jsonString[key] === 'object') {
+			// 	$scope.delete($scope.jsonString[key])
+			// }
+			// else {
+			// 	return
+			// }
+		}
+	}
+
+	function checkForUpdate(obj, original, update, field, id) {
 		for (var key in obj) {
-			if(key === original) {
-				performUpdate(obj, update, key)
+			if(field === 'key' && key === original) {
+				performKeyUpdate(obj, update, key)
+			}
+			else if(field === 'value' && obj[key].toString() === original && key === id) {
+				performValueUpdate(obj, update, key)
 			}
 			else if (Array.isArray(obj[key])) {
 				obj[key].forEach(function(elem) {
-					if(typeof elem === 'object') checkForUpdate(elem, original, update)
+					if(typeof elem === 'object') checkForUpdate(elem, original, update, field, id)
 				})
 			}
 			else if (typeof obj[key] === 'object') {
-				checkForUpdate(obj[key], original, update)
+				checkForUpdate(obj[key], original, update, field, id)
 			}
 		}
 	}
 
-	function performUpdate(obj, update, key) {
+	function performKeyUpdate(obj, update, key) {
 		obj[update] = obj[key]
 		delete obj[key]
 	}
 
-	function editJson = function(original, update, field) {
-		if (field === "key") {
-			checkForUpdate($scope.jsonString, original, update)
-		}
-		else {
-			for (var key in $scope.jsonString) {
-				if ($scope.jsonString[key] === original) {
-					$scope.jsonString[key] = update
-				}
-			}
-		}
+	function performValueUpdate(obj, update, key) {
+		obj[key] = update
 	}
 
-	$scope.fieldsToEdit = function(arr) {
-		arr.forEach(function(elem) {
-			if(elem[0] && elem[1]) {
-				editJson(elem[0], elem[1], elem[2])
-			}
-		})
-	}
 })
