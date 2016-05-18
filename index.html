@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>JSON Editor</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="js/index.js"></script>
+
+  </head>
+
+  <body ng-app="app" ng-controller="angular">
+    <div class="container">
+
+      <pre>{{jsonString | json}}</pre>
+
+<!--       <div ng-repeat="(key, value) in jsonString">
+      Key: {{key}}
+      Value: {{value}}
+      </div> -->
+
+      <label for="field">Key</label>
+      <input type="radio" ng-model="field" value="key">
+      <label for="field">Value</label>
+      <input type="radio" ng-model="field" value="value"><br>
+
+      <label for="original">Original:</label>
+      <input type="text" ng-model="original">
+      <label for="update">Update:</label>
+      <input type="text" ng-model="update"><br><br>
+
+      <label for="field">Key</label>
+      <input type="radio" ng-model="field2" value="key">
+      <label for="field">Value</label>
+      <input type="radio" ng-model="field2" value="value"><br>
+
+      <label for="original2">Original:</label>
+      <input type="text" ng-model="original2">
+      <label for="update2">Update:</label>
+      <input type="text" ng-model="update2"><br><br>
+
+      <label for="field">Key</label>
+      <input type="radio" ng-model="field3" value="key">
+      <label for="field">Value</label>
+      <input type="radio" ng-model="field3" value="value"><br>
+
+      <label for="original3">Original:</label>
+      <input type="text" ng-model="original3">
+      <label for="update3">Update:</label>
+      <input type="text" ng-model="update3"><br><br>
+
+      <button ng-click="fieldsToEdit([[original, update, field],[original2, update2, field2],[original3, update3, field3]])">Update JSON String</button>
+
+    </div>
+
+  </body>
+
+</html>
